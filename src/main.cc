@@ -38,6 +38,7 @@ class IFStage : public stage
 
     void* operator()(void* sr)
     {
+      (void) sr;
       IFIDLatch* latch = nullptr;
       std::string instruction;
 
@@ -151,6 +152,9 @@ class WBStage : public stage
 
 int main(int argc, char* argv[])
 {
+  if (argc != 2)
+    return 1;
+
   p::pipeline p;
 
   IFStage ifs(p, argv[1]);
@@ -159,11 +163,22 @@ int main(int argc, char* argv[])
   MEMStage mems(p);
   WBStage wbs(p);
 
-  p.add_stage(std::ref(ifs));
-  p.add_stage(std::ref(ids));
-  p.add_stage(std::ref(exs));
-  p.add_stage(std::ref(mems));
-  p.add_stage(std::ref(wbs));
+  // warning: seems to be bugged when optimized with gcc, the first stage is not
+  // ifs but wbs oO
+  //p.add_stage(std::ref(ifs));
+  //p.add_stage(std::ref(ids));
+  //p.add_stage(std::ref(exs));
+  //p.add_stage(std::ref(mems));
+  //p.add_stage(std::ref(wbs));
+  // !warning
+
+  // warning: only working add_stage version at any optimization levels
+  p.add_stage(std::ref(ifs))
+    .add_stage(std::ref(ids))
+    .add_stage(std::ref(exs))
+    .add_stage(std::ref(mems))
+    .add_stage(std::ref(wbs));
+  // !warning
 
   p.run();
 

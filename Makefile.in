@@ -1,7 +1,7 @@
 CC	:= g++
 LD      := g++
-CFLAGS  := -std=gnu++11 -g -ggdb
-LDFLAGS := -lpthread
+CFLAGS  := -std=c++11 -g -ggdb -Wall -Wextra -Werror
+LDFLAGS := $(CFLAGS) -lpthread
 CPPFLAGS := $(CFLAGS)
 
 $(eval $(call add_source,src/main.cc))

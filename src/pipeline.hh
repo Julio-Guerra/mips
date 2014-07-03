@@ -127,7 +127,7 @@ namespace p
   {
     public:
       barrier()
-        : reset_ (0), lock_ (), event_ (false), left_ (0), current_ (0)
+        : left_ (0), lock_ (), event_ (false), reset_ (0)
       {
       }
 
@@ -135,7 +135,6 @@ namespace p
       {
         reset_ = nb_threads;
         left_ = nb_threads;
-        current_ = 0;
         event_ = false;
       }
 
@@ -169,7 +168,6 @@ namespace p
 
     private:
       std::atomic<unsigned int> left_;
-      std::atomic<unsigned int> current_;
       spinlock                  lock_;
       std::atomic<bool>         event_;
       volatile unsigned int     reset_;
