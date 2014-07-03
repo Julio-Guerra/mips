@@ -1,0 +1,13 @@
+lw   2 20 1
+nop
+nop
+nop
+and  4 2 5
+nop
+nop
+nop
+or   4 4 2
+nop
+nop
+nop
+add  9 4 2

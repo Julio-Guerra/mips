@@ -1,0 +1,8 @@
+CC	:= g++
+LD      := g++
+CFLAGS  := -std=gnu++11 -g -ggdb
+LDFLAGS := -lpthread
+CPPFLAGS := $(CFLAGS)
+
+$(eval $(call add_source,src/main.cc))
+$(eval $(call make_binary,memu.elf))
