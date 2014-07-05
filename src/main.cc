@@ -80,11 +80,11 @@ class IDStage : public stage
       std::cout << "ID " << p_.t_get() << ": " << l->instruction << std::endl;
       mutex.unlock();
 
-      // example of
-      // using internal pipeline noop latch instead of actually handling it in       // the stages. it could be useful at the beginning of your development
-      // but may not work with your data units since **using this
-      // special latch value results in *not calling* the stage functions
-      // consuming it**. It will depend on your code.
+      // example internal pipeline noop latch usage, instead of actually
+      // handling it in the stages with your control signals. It could be useful
+      // in your early development steps.
+      // **using this special latch value results in *not calling* the stage
+      // functions consuming it**.
       return l->instruction == "nop" ? p::latch::noop : l;
     }
 };
