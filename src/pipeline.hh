@@ -188,6 +188,10 @@ namespace p
     public:
       typedef std::function<void*(void*)> stage_type;
 
+      ///
+      /// Push back the pipeline a new stage.
+      /// A stage is any callable element.
+      ///
       pipeline& add_stage(stage_type s)
       {
         size_t index = p_.size();
@@ -203,6 +207,9 @@ namespace p
         return *this;
       }
 
+      ///
+      /// Current Cycle getter.
+      ///
       inline unsigned int t_get() const
       {
         return t_;

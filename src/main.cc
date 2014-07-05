@@ -185,6 +185,7 @@ int main(int argc, char* argv[])
   std::cout
     << std::endl
     << "Total Number of Cycles = " << p.t_get() - 1 << std::endl
+    << "Average CPI = TODO" << std::endl
     << "Average IPC = TODO" << std::endl;
 
   return 0;
