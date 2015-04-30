@@ -6,7 +6,7 @@ Implémenter en C++ le pipeline MIPS étudié en cours. Pour être représentati
 dernier devra avoir les propriétés suivantes:
 
   1. Un thread par étage du pipeline afin de paralléliser leur exécution et rendre indispensable la synchronisation
-     des échanges de données entre étages.
+     des échanges de données entre étages.f
   1. le pipeline est cadancé à la vitesse de l'étage le plus lent. Aucun étage n'est en avance par rapport aux autres,
      c'est-à-dire que le cycle courant est le même pour tous à tout instant.
 
@@ -48,9 +48,9 @@ Par exemple:
 
 **[Liste de Passage](https://docs.google.com/spreadsheets/d/1_lwp6siRekOX9KWcdfQ6ht9vVxsl4sqo-8_YO-yohRE/edit?usp=sharing)**
 
-La soutenance 2015 est prévue **FIXME** à **Villejuif** (cf. chronos) à partir de 8h.
+La soutenance 2015 est prévue **13/07/2015** à **Villejuif** (cf. chronos et la liste de passage) à partir de FIXMEh.
 Aucun retard ne sera admis en dehors des plages horaires qui vous sont allouées. Un groupe à l'heure disposera ainsi
-de **12 minutes précises** (chronomètre en main) pour présenter son projet.
+de **FIXME minutes précises** (chronomètre en main) pour présenter son projet.
 
 Chaque groupe vient avec sa machine, son projet et ses exemples prêts pour la soutenance.
 Pour chaque groupe:
