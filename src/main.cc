@@ -80,7 +80,8 @@ class IDStage : public stage
 
       // example internal pipeline noop latch usage, instead of actually
       // handling it in the stages with your control signals. It could be useful
-      // in your early development steps.
+      // in your early development steps but you should end by using your control
+      // signals.
       // **using this special latch value results in *not calling* the stage
       // functions consuming it**.
       return l->instruction == "nop" ? p::latch::noop : l;
@@ -144,7 +145,12 @@ class WBStage : public stage
       mutex.unlock();
 
       delete l;
-      return l;
+
+      // returning null flushes the pipeline and stops it.
+      // every stage needs to return something to state it is done.
+      // since there is no stage register between WB and IF, we return
+      // anything but null to continue processing instructions.
+      return p::latch::something;
     }
 };
 

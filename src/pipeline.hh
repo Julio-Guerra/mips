@@ -215,6 +215,9 @@ namespace p
         return t_;
       }
 
+      ///
+      /// Start and run the pipeline.
+      ///
       void run()
       {
         size_t nb_stages = p_.size();
@@ -224,15 +227,24 @@ namespace p
 
         barrier_.init(nb_stages);
         // every stage is latched with a noop but the first one which
-        // will insert data into the pipeline
+        // will insert data into the pipeline.
         p_[nb_stages - 1].out.latch_set(latch::something);
+
+        // make the last stage produce `latch:something` when it gets
+        // a `noop` latch to avoid blocking the pipeline (we don't want
+        // the noop to loop into the pipeline)
         p_[nb_stages - 1].out.noop_latch = latch::something;
 
-        // create and start the stage's threads
+        // create and start the stage threads.
+        // `std::thread` constructor gets a callable argument and its
+        // arguments: `*this(s)` where `this` is the pipeline instance
+        // and `s` is the pipeline stage descriptor created by the
+        // `add_stage` method.
         std::vector<std::thread> threads;
         for (auto& s : p_)
           threads.emplace_back(std::ref(*this), std::ref(s));
 
+        // do not leave until every pipeline thread joined.
         for (size_t i = 0; i < nb_stages; ++i)
           if (threads[i].joinable())
             threads[i].join();
@@ -264,6 +276,12 @@ namespace p
           latch         out;
       } sd_type;
 
+      ///
+      /// Pipeline stage wrapper function.
+      /// Each stage's thread executes this function which calls
+      /// user-defined stage funct.
+      /// Actual stage functor calling the stage's operator.
+      ///
       void operator()(sd_type& this_stage)
       {
         unsigned int t = 0;
@@ -271,25 +289,32 @@ namespace p
 
         do
         {
+          // Get the latch result of our predecessor.
           void* latch = pred.out.consume();
 
-          // Synchronization barrier insure every stages are the exact same
-          // clock cycle
-          // Is it possible to remove the barrier and find a producer/consumer
-          // constraint ensuring this property? As it is (and without the
-          // barrier), there can be two stages at different clock cycles at the
-          // same time in the pipeline... The "consume previous stage result and
-          // produce the next stage's result". There might be a barrier-free
-          // solution.
+          // Block until every stage reach the synchronization barrier.
+          // It ensures every stages are at the exact same clock cycle.
           barrier_();
+          // Note:
+          // Is it possible to remove the barrier and find a producer/consumer
+          // constraint ensuring this property? Without barrier, current
+          // implementation, there can be two stages at different clock cycles
+          // at the same time in the pipeline... The "consume previous stage's
+          // result and produce the next stage's result" is not enough. There
+          // might be a barrier-free solution.
 
+          // increase the clock counter
           ++t;
           t_ = t;
 
+          // The latch is a noop: produce the `noop` latch without calling
+          // the stage's operator.
           if (latch == latch::noop)
             this_stage.out.produce(this_stage.out.noop_latch);
           else
           {
+            // The latch is a terminate request: leave the barrier, produce
+            // the `terminate` latch and terminate the thread.
             if (latch == latch::terminate)
             {
               barrier_.leave();
@@ -297,15 +322,18 @@ namespace p
               break;
             }
 
+            // Call the stage's operator.
             latch = this_stage.f(latch);
 
+            // Produce the stage's latch.
             this_stage.out.produce(latch);
 
+            // The stage initiating the terminate flushes the pipeline.
             if (latch == latch::terminate)
             {
               barrier_.leave();
-              // consume pred's data until it gets the terminate latch
-              // otherwise no one would consume it...
+              // Consume predecessor's latch results until we get back our
+              // latched terminate. Otherwise no one would consume it.
               while (pred.out.consume() != latch::terminate)
                 ;
               break;
