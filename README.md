@@ -48,9 +48,9 @@ Par exemple:
 
 **[Liste de Passage](https://docs.google.com/spreadsheets/d/1_lwp6siRekOX9KWcdfQ6ht9vVxsl4sqo-8_YO-yohRE/edit?usp=sharing)**
 
-La soutenance 2015 est prévue **13/07/2015** à **Villejuif** (cf. chronos et la liste de passage) à partir de FIXMEh.
+La soutenance 2015 est prévue **13/07/2015** à **Villejuif** (cf. chronos et la liste de passage) à partir de 8h00.
 Aucun retard ne sera admis en dehors des plages horaires qui vous sont allouées. Un groupe à l'heure disposera ainsi
-de **FIXME minutes précises** (chronomètre en main) pour présenter son projet.
+de **15 minutes précises** (chronomètre en main) pour présenter son projet.
 
 Chaque groupe vient avec sa machine, son projet et ses exemples prêts pour la soutenance.
 Pour chaque groupe:
