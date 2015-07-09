@@ -50,7 +50,7 @@ Par exemple:
 
 La soutenance 2015 est prévue le **13/07/2015** à **Villejuif** (cf. chronos et la liste de passage).
 Aucun retard ne sera admis en dehors des plages horaires qui vous sont allouées. Un groupe à l'heure disposera ainsi
-de **15 minutes précises** (chronomètre en main) pour présenter son projet.
+de **12 minutes précises** (chronomètre en main) pour présenter son projet.
 
 Chaque groupe vient avec sa machine, son projet et ses exemples prêts pour la soutenance.
 Pour chaque groupe:
